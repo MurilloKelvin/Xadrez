@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Xadrez.Tabuleiro
 {
+    // enum que representa as cores das peças
     public enum Cor
     {
         

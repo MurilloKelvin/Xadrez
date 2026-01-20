@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Xadrez.Tabuleiro
 {
+    // classe que representa uma posição no tabuleiro
     public class Posicao
     {
         public int linha { get; set; }
@@ -17,7 +18,8 @@ namespace Xadrez.Tabuleiro
             this.coluna = coluna;
         }
 
-        public override string ToString()
+        // sobrescreve o método ToString para exibir a posição no formato "linha, coluna"
+        public override string ToString() 
         {
             return linha + ", " + coluna;
         }

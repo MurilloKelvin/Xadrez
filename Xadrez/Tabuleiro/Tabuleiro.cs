@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Xadrez.Tabuleiro
 {
+    // classe que representa o tabuleiro do jogo
     public class Tabuleiro(int linhas, int colunas)
     {
         public int Linhas { get; set; } = linhas;
