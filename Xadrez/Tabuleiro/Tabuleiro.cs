@@ -6,17 +6,15 @@ using System.Threading.Tasks;
 
 namespace Xadrez.Tabuleiro
 {
-    public class Tabuleiro
+    public class Tabuleiro(int linhas, int colunas)
     {
-        public int linhas { get; set; }
-        public int colunas { get; set; }
-        private Peca[,] pecas;
+        public int Linhas { get; set; } = linhas;
+        public int Colunas { get; set; } = colunas;
+        private Peca[,] pecas = new Peca[linhas, colunas];
 
-        public Tabuleiro(int linhas, int colunas)
+        public Peca Peca(int linha, int coluna)
         {
-            this.linhas = linhas;
-            this.colunas = colunas;
-            pecas = new Peca[linhas, colunas];
+            return pecas[linha, coluna];
         }
     }
 }
