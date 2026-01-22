@@ -36,6 +36,17 @@ namespace Xadrez.Tabuleiro
 
         }
 
+        public Peca retirarPeca(Posicao pos) // metodo para retirar uma peca do tabuleiro
+        {
+            if (Peca(pos) == null) // se nao houver peca na posicao, retorna null
+            {
+                return null;
+            }
+            Peca aux = Peca(pos); // cria uma variavel auxiliar para guardar a peca que sera retirada
+            aux.posicao = null;
+            pecas[pos.linha, pos.coluna] = null; 
+            return aux; // retorna a peca retirada
+        }
 
         public bool existePeca(Posicao pos) // metodo para verificar se existe uma peca na posicao
         {
