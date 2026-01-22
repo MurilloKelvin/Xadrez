@@ -2,6 +2,7 @@
 using Xadrez;
 using PecasXadrez;
 using Xadrez.Tabuleiro;
+using Xadrez.PecasXadrez;
 
 Posicao p = new Posicao(0, 0);
 
@@ -10,16 +11,11 @@ Console.WriteLine($"Linha: {p.linha}, Coluna: {p.coluna}");
 Tabuleiro tab = new Tabuleiro(8, 8);
 
 
-try
-{
-    tab.colocarPeca(new Torre(tab, Cor.Preta), new Posicao(0, 0));
-    tab.colocarPeca(new Rei(tab, Cor.Preta), new Posicao(0, 4));
-    tab.colocarPeca(new Rei(tab, Cor.Preta), new Posicao(0, 12));
+PosicaoXadrez posXadrez = new PosicaoXadrez('a', 1);
 
-}
-catch (TabuleiroException e)
-{
-    Console.WriteLine(e.Message);
-}
+Console.WriteLine(posXadrez.toPosicao());
 
-// Tela.ImprimirTabuleiro(tab);
+Console.WriteLine(posXadrez);
+
+Tela.ImprimirTabuleiro(tab);
+
