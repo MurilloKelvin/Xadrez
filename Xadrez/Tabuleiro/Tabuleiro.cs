@@ -27,6 +27,10 @@ namespace Xadrez.Tabuleiro
 
         public void colocarPeca(Peca p, Posicao pos) // metodo para colocar uma peca no tabuleiro
         {
+            if (existePeca(pos))
+            {
+                throw new TabuleiroException("Já existe uma peça nessa posição!");
+            }
             pecas[pos.linha, pos.coluna] = p;
             p.posicao = pos;
 
@@ -47,7 +51,7 @@ namespace Xadrez.Tabuleiro
             }
             return true;
         }
-    
+
         public void validarPosicao(Posicao pos) // metodo para validar a posicao
         {
             if (!posicaoValida(pos))
@@ -57,4 +61,5 @@ namespace Xadrez.Tabuleiro
 
 
         }
+    }
 }

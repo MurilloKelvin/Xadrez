@@ -10,7 +10,16 @@ Console.WriteLine($"Linha: {p.linha}, Coluna: {p.coluna}");
 Tabuleiro tab = new Tabuleiro(8, 8);
 
 
-tab.colocarPeca(new Torre(tab, Cor.Preta), new Posicao(0, 0));
-tab.colocarPeca(new Rei(tab, Cor.Preta), new Posicao(0, 4));
+try
+{
+    tab.colocarPeca(new Torre(tab, Cor.Preta), new Posicao(0, 0));
+    tab.colocarPeca(new Rei(tab, Cor.Preta), new Posicao(0, 4));
+    tab.colocarPeca(new Rei(tab, Cor.Preta), new Posicao(0, 12));
 
-Tela.ImprimirTabuleiro(tab);
+}
+catch (TabuleiroException e)
+{
+    Console.WriteLine(e.Message);
+}
+
+// Tela.ImprimirTabuleiro(tab);
