@@ -8,6 +8,7 @@ namespace Xadrez.PecasXadrez
         public Tabuleiro.Tabuleiro tab { get; private set; }
         private readonly int turno;
         private readonly Cor jogadorAtual;
+        public bool terminada { get; private set; }
 
         public partidaXadrez() 
         {

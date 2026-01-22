@@ -7,7 +7,21 @@ using Xadrez.PecasXadrez;
 try
 {
     partidaXadrez partida = new partidaXadrez();
-    Tela.ImprimirTabuleiro(partida.tab);
+    
+    while (!partida.terminada)
+    {
+        Console.Clear();
+        Tela.ImprimirTabuleiro(partida.tab);
+
+
+        Console.WriteLine("Digite a posiçao de origem: ");
+        Posicao origem = Tela.LerPosicaoXadrez().toPosicao();
+        Console.WriteLine("Digite a posiçao de destino: ");
+        Posicao destino = Tela.LerPosicaoXadrez().toPosicao();
+        partida.executarMovimento(origem, destino);
+
+    }
+
 
 
 }
