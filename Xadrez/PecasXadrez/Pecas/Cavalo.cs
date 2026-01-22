@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Xadrez.Tabuleiro;
 
-namespace PecasXadrez
+namespace Xadrez.PecasXadrez.Pecas
 {
 public class Cavalo : Peca
     {
-        public Cavalo(Tabuleiro tab, Cor cor) : base (tab, cor)
+        public Cavalo(Xadrez.Tabuleiro.Tabuleiro tab, Cor cor) : base (tab, cor)
         { 
 
         }

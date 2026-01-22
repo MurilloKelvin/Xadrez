@@ -1,10 +1,10 @@
 ﻿using Xadrez.Tabuleiro;
 
-namespace PecasXadrez
+namespace Xadrez.PecasXadrez.Pecas
 {
     public class Torre : Peca
     {
-        public Torre(Tabuleiro tab, Cor cor) : base(tab, cor) // chama o construtor da classe base Peca
+        public Torre(Xadrez.Tabuleiro.Tabuleiro tab, Cor cor) : base(tab, cor) // chama o construtor da classe base Peca
         {
 
         }

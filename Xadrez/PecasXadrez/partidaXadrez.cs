@@ -1,5 +1,5 @@
-﻿using PecasXadrez;
-using Xadrez.Tabuleiro;
+﻿using Xadrez.Tabuleiro;
+using Xadrez.PecasXadrez.Pecas;
 
 namespace Xadrez.PecasXadrez
 {

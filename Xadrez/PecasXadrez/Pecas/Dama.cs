@@ -1,10 +1,10 @@
 ﻿using Xadrez.Tabuleiro;
 
-namespace PecasXadrez
+namespace Xadrez.PecasXadrez.Pecas
 {
     public class Dama : Peca
     {
-        public Dama(Tabuleiro tab, Cor cor) : base(tab, cor)
+        public Dama(Xadrez.Tabuleiro.Tabuleiro tab, Cor cor) : base(tab, cor)
         {
 
         }

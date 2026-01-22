@@ -1,6 +1,6 @@
 ﻿
 using Xadrez;
-using PecasXadrez;
+using Xadrez.PecasXadrez;
 using Xadrez.Tabuleiro;
 using Xadrez.PecasXadrez;
 

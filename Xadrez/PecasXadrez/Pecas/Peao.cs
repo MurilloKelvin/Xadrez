@@ -1,10 +1,10 @@
 ﻿using Xadrez.Tabuleiro;
 
-namespace PecasXadrez
+namespace Xadrez.PecasXadrez.Pecas
 {
     public class Peao : Peca
     {
-        public Peao(Tabuleiro tab, Cor cor) : base(tab, cor)
+        public Peao(Xadrez.Tabuleiro.Tabuleiro tab, Cor cor) : base(tab, cor)
         {
 
         }
