@@ -10,13 +10,21 @@ namespace Xadrez.PecasXadrez
     class PosicaoXadrez
     {
 
-        public  char coluna { get; set; }
+        public  int coluna { get; set; }
         public  int linha { get; set; }
 
-        public PosicaoXadrez(char coluna, int linha)
+        public PosicaoXadrez(int coluna, int linha)
         {
             this.coluna = coluna;
             this.linha = linha;
+        }
+
+
+
+        public void definirPosicao(int linha, int coluna )
+        {
+            this.linha = linha;
+            this.coluna = coluna;
         }
 
         public Posicao toPosicao()

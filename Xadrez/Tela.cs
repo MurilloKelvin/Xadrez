@@ -2,7 +2,35 @@
 using Xadrez.Tabuleiro;
 class Tela
 {
-    // classe de impressão do tabuleiro no console
+    // classe de impressão do tabuleiro no console e leitura de posições (sobrecarga)
+    public static void ImprimirTabuleiro(Tabuleiro tab, bool[,] posicoesPossiveis)
+    {
+
+        ConsoleColor fundoDefault = Console.BackgroundColor;
+        ConsoleColor fundoAlterado = ConsoleColor.DarkGray;
+
+        for (int i = 0; i < tab.Linhas; i++) // percorre as linhas
+        {
+            Console.BackgroundColor = fundoDefault;
+            Console.Write(8 - i + " "); // imprime o número da linha
+            for (int j = 0; j < tab.Colunas; j++) // percorre as colunas
+            {
+                if (posicoesPossiveis[i, j])
+                {
+                    Console.BackgroundColor = fundoAlterado;
+                }
+                else
+                {
+                    Console.BackgroundColor = fundoDefault;
+                }
+                ImprimirPeca(tab.Peca(i, j)); // imprime a peça
+            }
+            Console.WriteLine();
+        }
+        Console.WriteLine("  a b c d e f g h"); // imprime as letras das colunas
+    }
+
+    // imprime o tabuleiro padrao
     public static void ImprimirTabuleiro(Tabuleiro tab)
     {
         for (int i = 0; i < tab.Linhas; i++) // percorre as linhas
@@ -10,15 +38,7 @@ class Tela
             Console.Write(8 - i + " "); // imprime o número da linha
             for (int j = 0; j < tab.Colunas; j++) // percorre as colunas
             {
-                if (tab.Peca(i, j) == null) // se não houver peça naquela posição 
-                {
-                    Console.Write("- ");
-                }
-                else
-                {
-                    ImprimirPeca(tab.Peca(i, j)); // imprime a peça
-                    Console.Write(" ");
-                }
+                ImprimirPeca(tab.Peca(i, j)); // imprime a peça
             }
             Console.WriteLine();
         }
@@ -35,17 +55,23 @@ class Tela
 
     public static void ImprimirPeca(Peca peca)
     {
-        if (peca.cor == Cor.Branca)
+        if (peca == null)
         {
-            Console.Write(peca);
+            Console.Write("-"); // se não houver peça, imprime um traço
         }
         else
         {
-            ConsoleColor aux = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write(peca);
-            Console.ForegroundColor = aux;
+            if (peca.cor == Cor.Branca)
+            {
+                Console.Write(peca);
+            }
+            else {
+                ConsoleColor aux = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write(peca);
+                Console.ForegroundColor = aux;
+            }
         }
+        Console.Write(" "); // espaço entre as peças
     }
-
 }

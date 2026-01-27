@@ -36,6 +36,8 @@ namespace Xadrez.Tabuleiro
 
         }
 
+
+
         public Peca retirarPeca(Posicao pos) // metodo para retirar uma peca do tabuleiro
         {
             if (Peca(pos) == null) // se nao houver peca na posicao, retorna null
@@ -69,6 +71,7 @@ namespace Xadrez.Tabuleiro
             {
                 throw new TabuleiroException("Posição inválida!");
             }
+
 
 
         }

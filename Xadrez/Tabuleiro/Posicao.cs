@@ -23,5 +23,11 @@ namespace Xadrez.Tabuleiro
         {
             return linha + ", " + coluna;
         }
+
+        internal void definirValores(int v, int coluna)
+        {
+            this.linha = v;
+            this.coluna = coluna;
+        }
     }
 }
