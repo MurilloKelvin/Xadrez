@@ -12,10 +12,7 @@ try
         try
         {
             Console.Clear();
-            Tela.ImprimirTabuleiro(partida.tab);
-            Console.WriteLine();
-            Console.WriteLine("Turno: " + partida.turno);
-            Console.WriteLine("Aguardando a jogada do: " + partida.jogadorAtual);
+            Tela.ImprimirPartida(partida); // imprime o estado atual da partida
 
 
             Console.Write("Digite a posiçao de origem: ");

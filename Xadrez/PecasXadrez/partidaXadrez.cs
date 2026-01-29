@@ -9,50 +9,89 @@ namespace Xadrez.PecasXadrez
         public int turno { get; private set; }
         public Cor jogadorAtual { get; private set; }
         public bool terminada { get; private set; }
+        private HashSet<Peca> pecasNoTabuleiro; // conjunto de peças no tabuleiro
+        private HashSet<Peca> Capturadas;
+
 
         public partidaXadrez()
         {
             tab = new Tabuleiro.Tabuleiro(8, 8);
             turno = 1;
             jogadorAtual = Cor.Branca;
+
+           pecasNoTabuleiro = new HashSet<Peca>(); // conjunto de peças no tabuleiro
+           Capturadas = new HashSet<Peca>(); // conjunto de peças capturadas
+
             colocarPecas();
         }
 
-        private void colocarPecas() // PosicaoXadrez → sempre 1–8
+        public HashSet<Peca> pecasCapturadas(Cor cor) // retorna as peças capturadas de uma cor específica
+        {
+            HashSet<Peca> aux = new HashSet<Peca>(); // conjunto auxiliar
+            foreach (Peca p in Capturadas) // percorre as peças capturadas
+            {
+                if (p.cor == cor) // se a cor da peça for igual a cor passada no parametro 
+                {
+                    aux.Add(p); // adiciona a peça ao conjunto auxiliar sem modificar o conjunto original "Capturadas"
+                }
+            }
+            return aux; // retorna o conjunto auxiliar para fim de exibição
+        }
+
+        public HashSet<Peca> pecasEmJogo(Cor cor) // retorna as peças em jogo de uma cor específica
+        {
+            HashSet<Peca> aux = new HashSet<Peca>(); // conjunto auxiliar
+            foreach (Peca p in pecasNoTabuleiro) // percorre as peças no tabuleiro
+            {
+                if (p.cor == cor) // se a cor da peça for igual a cor passada no parametro 
+                {
+                    aux.Add(p); // adiciona a peça ao conjunto auxiliar sem modificar o conjunto original "pecasNoTabuleiro"
+                }
+            }
+            aux.ExceptWith(pecasCapturadas(cor)); // remove as peças capturadas da mesma cor do conjunto auxiliar
+            return aux; // retorna o conjunto auxiliar para fim de exibição sem as peças capturadas
+        }
+
+
+        public void colocarNovaPeca(char coluna, int linha, Peca peca) // metodo auxiliar para colocar peças no tabuleiro 
+        {
+            tab.colocarPeca(peca, new PosicaoXadrez(coluna, linha).toPosicao());
+            pecasNoTabuleiro.Add(peca);
+        }
+
+        private void colocarPecas() // PosicaoXadrez → sempre 1–8 metodo pra colocar as peças na posição inicial
         {
             // peças principais pretas linha 1
-            tab.colocarPeca(new Torre(tab, Cor.Preta), new PosicaoXadrez('a', 8).toPosicao());
-            tab.colocarPeca(new Cavalo(tab, Cor.Preta), new PosicaoXadrez('b', 8).toPosicao());
-            tab.colocarPeca(new Bispo(tab, Cor.Preta), new PosicaoXadrez('c', 8).toPosicao());
-            tab.colocarPeca(new Dama(tab, Cor.Preta), new PosicaoXadrez('d', 8).toPosicao());
-            tab.colocarPeca(new Rei(tab, Cor.Preta), new PosicaoXadrez('e', 8).toPosicao());
-            tab.colocarPeca(new Bispo(tab, Cor.Preta), new PosicaoXadrez('f', 8).toPosicao());
-            tab.colocarPeca(new Cavalo(tab, Cor.Preta), new PosicaoXadrez('g', 8).toPosicao());
-            tab.colocarPeca(new Torre(tab, Cor.Preta), new PosicaoXadrez('h', 8).toPosicao());
+            colocarNovaPeca('a', 8, new Torre(tab, Cor.Preta));
+            colocarNovaPeca('b', 8, new Cavalo(tab, Cor.Preta));
+            colocarNovaPeca('c', 8, new Bispo(tab, Cor.Preta));
+            colocarNovaPeca('d', 8, new Dama(tab, Cor.Preta));
+            colocarNovaPeca('e', 8, new Rei(tab, Cor.Preta));
+            colocarNovaPeca('f', 8, new Bispo(tab, Cor.Preta));
+            colocarNovaPeca('g', 8, new Cavalo(tab, Cor.Preta));
+            colocarNovaPeca('h', 8, new Torre(tab, Cor.Preta));
 
             // peões pretos linha 2
             for (char c = 'a'; c <= 'h'; c++)
             {
-                tab.colocarPeca(new Peao(tab, Cor.Preta),
-                    new PosicaoXadrez(c, 7).toPosicao());
+                colocarNovaPeca(c, 7, new Peao(tab, Cor.Preta));
             }
 
             // peças principais brancas linha 7
-            tab.colocarPeca(new Torre(tab, Cor.Branca), new PosicaoXadrez('a', 1).toPosicao());
-            tab.colocarPeca(new Cavalo(tab, Cor.Branca), new PosicaoXadrez('b', 1).toPosicao());
-            tab.colocarPeca(new Bispo(tab, Cor.Branca), new PosicaoXadrez('c', 1).toPosicao());
-            tab.colocarPeca(new Dama(tab, Cor.Branca), new PosicaoXadrez('d', 1).toPosicao());
-            tab.colocarPeca(new Rei(tab, Cor.Branca), new PosicaoXadrez('e', 1).toPosicao());
-            tab.colocarPeca(new Bispo(tab, Cor.Branca), new PosicaoXadrez('f', 1).toPosicao());
-            tab.colocarPeca(new Cavalo(tab, Cor.Branca), new PosicaoXadrez('g', 1).toPosicao());
-            tab.colocarPeca(new Torre(tab, Cor.Branca), new PosicaoXadrez('h', 1).toPosicao());
+            colocarNovaPeca('a', 1, new Torre(tab, Cor.Branca));
+            colocarNovaPeca('b', 1, new Cavalo(tab, Cor.Branca));
+            colocarNovaPeca('c', 1, new Bispo(tab, Cor.Branca));
+            colocarNovaPeca('d', 1, new Dama(tab, Cor.Branca));
+            colocarNovaPeca('e', 1, new Rei(tab, Cor.Branca));
+            colocarNovaPeca('f', 1, new Bispo(tab, Cor.Branca));
+            colocarNovaPeca('g', 1, new Cavalo(tab, Cor.Branca));
+            colocarNovaPeca('h', 1, new Torre(tab, Cor.Branca));
 
             // peões brancos linha 6
 
             for (char c = 'a'; c <= 'h'; c++)
             {
-                tab.colocarPeca(new Peao(tab, Cor.Branca),
-                    new PosicaoXadrez(c, 2).toPosicao());
+                colocarNovaPeca(c, 2, new Peao(tab, Cor.Branca));
             }
         }
 
@@ -78,6 +117,12 @@ namespace Xadrez.PecasXadrez
             p.incrementarQteMovimentos();
             Peca pecaCapturada = tab.retirarPeca(destino);
             tab.colocarPeca(p, destino);
+
+            if(!(pecaCapturada == null))
+            {
+                pecasNoTabuleiro.Remove(pecaCapturada);
+                Capturadas.Add(pecaCapturada);
+            }
         }
 
         public void validarPosicaoDeOrigem(Posicao pos) // valida se a posição de origem é válida

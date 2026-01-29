@@ -2,6 +2,46 @@
 using Xadrez.Tabuleiro;
 class Tela
 {
+
+    public static void ImprimirPartida(partidaXadrez partida)
+    {
+        ImprimirTabuleiro(partida.tab);
+        Console.WriteLine();
+        ImprimirPecasCapturadas(partida);
+        Console.WriteLine();
+        Console.WriteLine("Turno: " + partida.turno);
+        Console.WriteLine("Aguardando jogada: " + partida.jogadorAtual);
+    }
+
+    public static void ImprimirPecasCapturadas(partidaXadrez partida) // metodo para imprimir as peças capturadas
+    {
+        Console.WriteLine("Peças capturadas: ");
+        Console.Write("Brancas: ");
+        ImprimirConjunto(partida.pecasCapturadas(Cor.Branca)); // imprime as brancas
+        Console.WriteLine();
+
+        Console.Write("Pretas: ");
+        ConsoleColor aux = Console.ForegroundColor; 
+        Console.ForegroundColor = ConsoleColor.Yellow; //deixa o fundo amarelo para as peças pretas
+        ImprimirConjunto(partida.pecasCapturadas(Cor.Preta)); // imprime as pretas
+
+        Console.ForegroundColor = aux; // volta a cor original
+
+        Console.WriteLine();
+    }
+
+    public static void ImprimirConjunto(HashSet<Peca> conjunto) // metodo para imprimir um conjunto de peças
+    {
+        Console.Write("[ ");
+        foreach (Peca x in conjunto) // percorre o conjunto
+        {
+            Console.Write(x + " "); // imprime a peça
+        }
+        Console.Write("]");
+    }
+
+
+
     // classe de impressão do tabuleiro no console e leitura de posições (sobrecarga)
     public static void ImprimirTabuleiro(Tabuleiro tab, bool[,] posicoesPossiveis)
     {
