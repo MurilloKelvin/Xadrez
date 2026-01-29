@@ -1,5 +1,6 @@
 ﻿using Xadrez.Tabuleiro;
 using Xadrez.PecasXadrez.Pecas;
+using System.Runtime.CompilerServices;
 
 namespace Xadrez.PecasXadrez
 {
@@ -11,6 +12,7 @@ namespace Xadrez.PecasXadrez
         public bool terminada { get; private set; }
         private HashSet<Peca> pecasNoTabuleiro; // conjunto de peças no tabuleiro
         private HashSet<Peca> Capturadas;
+        public bool xeque { get; private set; }
 
 
         public partidaXadrez()
@@ -18,6 +20,7 @@ namespace Xadrez.PecasXadrez
             tab = new Tabuleiro.Tabuleiro(8, 8);
             turno = 1;
             jogadorAtual = Cor.Branca;
+            xeque = false;
 
            pecasNoTabuleiro = new HashSet<Peca>(); // conjunto de peças no tabuleiro
            Capturadas = new HashSet<Peca>(); // conjunto de peças capturadas
@@ -50,6 +53,38 @@ namespace Xadrez.PecasXadrez
             }
             aux.ExceptWith(pecasCapturadas(cor)); // remove as peças capturadas da mesma cor do conjunto auxiliar
             return aux; // retorna o conjunto auxiliar para fim de exibição sem as peças capturadas
+        }
+
+        private Cor adversaria (Cor cor) // retorna a cor adversária
+        {
+            if (cor == Cor.Branca)
+                return Cor.Preta;
+            else
+                return Cor.Branca;
+        }
+
+        private Peca rei(Cor cor) // retorna o rei de uma cor específica
+        {
+            foreach(Peca x in pecasEmJogo(cor))
+            {
+                if (x is Rei) // verifica se a peça é um rei
+                    return x; // retorna o rei
+            }
+            return null;
+        }
+
+        public bool testeXeque(Cor cor)
+        {
+            Peca R = rei(cor); // procura o rei da cor passada no parametro
+            foreach (Peca x in pecasEmJogo(cor)) // percorre todas as peças em jogo
+            {
+                bool[,] matriz = x.movimentosPossiveis();
+                if (matriz[R.posicao.linha, R.posicao.coluna]) //verifica linha ecoluna que o rei ta 
+                {
+                    return true; // se tiver um rei na posicao de movimentospossives esta em xeque
+                }
+            }
+            return false; // nao esta em xeque
         }
 
 
@@ -97,8 +132,21 @@ namespace Xadrez.PecasXadrez
 
         public void realizaJogada(Posicao origem, Posicao destino) // realiza o movimento e troca o jogador ((SOBRECARGA DO EXEC MOVIMENTO))
         {
-            executarMovimento(origem, destino); // move a peça
-            turno++;
+            Peca pecaCapturada = executarMovimento(origem, destino); // move a peça
+
+            if (testeXeque(jogadorAtual)) // testa se o jogador atual está em xeque após o movimento (eu nao posso me colocar em xeque)
+            {
+                desfazMovimento(origem, destino, pecaCapturada);
+                throw new TabuleiroException("Voce nao pode se colocar em xeque!");
+            }
+            if (!testeXeque(adversaria(jogadorAtual))) // testa se o jogador adversário está em xeque após o movimento  (eu posso colocar o outro em xeque)
+            {
+                xeque = true; // se o adversário estiver em xeque
+            }
+            else
+                xeque = false;
+
+                turno++;
             TrocaLadoJogador(); // alterna entre os jogadores
         }
 
@@ -111,7 +159,7 @@ namespace Xadrez.PecasXadrez
 
         }
 
-        public void executarMovimento(Posicao origem, Posicao destino) // func auxiliar que executa o movimento -> realizarJogada
+        public Peca executarMovimento(Posicao origem, Posicao destino) // func auxiliar que executa o movimento -> realizarJogada
         {
             Peca p = tab.retirarPeca(origem);
             p.incrementarQteMovimentos();
@@ -123,6 +171,22 @@ namespace Xadrez.PecasXadrez
                 pecasNoTabuleiro.Remove(pecaCapturada);
                 Capturadas.Add(pecaCapturada);
             }
+
+            return pecaCapturada;
+
+        }
+
+        public void desfazMovimento(Posicao origem, Posicao destino, Peca pecaCapturada) // 
+        {
+            Peca p = tab.retirarPeca(destino); // func pra retirar a peça do destino (desfaz jogada)
+            p.decrementarQteMovimentos(); // diminui uma qte de movimento
+
+            if(pecaCapturada != null) // se capturou uma peça
+            {
+                tab.colocarPeca(pecaCapturada, destino); //coloca a peça captura no lugar de volta
+                Capturadas.Remove(pecaCapturada); // tira a peça "capturada" do hash de peçasCapturadas
+            }
+            tab.colocarPeca(p, origem); // volta a peça pro lugar
         }
 
         public void validarPosicaoDeOrigem(Posicao pos) // valida se a posição de origem é válida
