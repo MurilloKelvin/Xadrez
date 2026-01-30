@@ -17,7 +17,6 @@ namespace Xadrez.Tabuleiro
         // construtor da peça
         public Peca(Tabuleiro tab, Cor cor)
         {
-            this.posicao = posicao;
             this.cor = cor;
             this.tab = tab;
             this.qteMovimentos = 0;

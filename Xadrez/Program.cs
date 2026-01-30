@@ -5,7 +5,7 @@ using Xadrez.Tabuleiro;
 
 try
 {
-    partidaXadrez partida = new partidaXadrez();
+    partidaXadrez partida = new partidaXadrez();  // console travando por conta das peças que nao foram implementadas e ficam com o movimentoPossiveis em todo o tabuleiro ********************************
 
     while (!partida.terminada)
     {
@@ -37,7 +37,8 @@ try
         catch (TabuleiroException e)
         {
             Console.WriteLine(e.Message);
-            Console.ReadLine();
+            Console.WriteLine("Aperte qualquer tecla pra continuar");
+            Console.ReadKey();
         }
 
 

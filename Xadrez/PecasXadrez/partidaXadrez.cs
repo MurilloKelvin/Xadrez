@@ -75,16 +75,16 @@ namespace Xadrez.PecasXadrez
 
         public bool testeXeque(Cor cor)
         {
-            Peca R = rei(cor); // procura o rei da cor passada no parametro
-            foreach (Peca x in pecasEmJogo(cor)) // percorre todas as peças em jogo
+            Peca R = rei(cor);
+            if (R == null) return false;
+
+            foreach (Peca x in pecasEmJogo(adversaria(cor)))
             {
                 bool[,] matriz = x.movimentosPossiveis();
-                if (matriz[R.posicao.linha, R.posicao.coluna]) //verifica linha ecoluna que o rei ta 
-                {
-                    return true; // se tiver um rei na posicao de movimentospossives esta em xeque
-                }
+                if (matriz[R.posicao.linha, R.posicao.coluna])
+                    return true;
             }
-            return false; // nao esta em xeque
+            return false;
         }
 
 
@@ -101,10 +101,10 @@ namespace Xadrez.PecasXadrez
             colocarNovaPeca('b', 8, new Cavalo(tab, Cor.Preta));
             colocarNovaPeca('c', 8, new Bispo(tab, Cor.Preta));
             colocarNovaPeca('d', 8, new Dama(tab, Cor.Preta));
-            colocarNovaPeca('e', 8, new Rei(tab, Cor.Preta));
             colocarNovaPeca('f', 8, new Bispo(tab, Cor.Preta));
-            colocarNovaPeca('g', 8, new Cavalo(tab, Cor.Preta));
+            colocarNovaPeca('g', 8, new Cavalo(tab, Cor.Preta)); 
             colocarNovaPeca('h', 8, new Torre(tab, Cor.Preta));
+
 
             // peões pretos linha 2
             for (char c = 'a'; c <= 'h'; c++)
@@ -117,10 +117,10 @@ namespace Xadrez.PecasXadrez
             colocarNovaPeca('b', 1, new Cavalo(tab, Cor.Branca));
             colocarNovaPeca('c', 1, new Bispo(tab, Cor.Branca));
             colocarNovaPeca('d', 1, new Dama(tab, Cor.Branca));
-            colocarNovaPeca('e', 1, new Rei(tab, Cor.Branca));
             colocarNovaPeca('f', 1, new Bispo(tab, Cor.Branca));
             colocarNovaPeca('g', 1, new Cavalo(tab, Cor.Branca));
-            colocarNovaPeca('h', 1, new Torre(tab, Cor.Branca));
+            colocarNovaPeca('h', 1, new Torre(tab, Cor.Branca)); 
+
 
             // peões brancos linha 6
 
@@ -139,14 +139,11 @@ namespace Xadrez.PecasXadrez
                 desfazMovimento(origem, destino, pecaCapturada);
                 throw new TabuleiroException("Voce nao pode se colocar em xeque!");
             }
-            if (!testeXeque(adversaria(jogadorAtual))) // testa se o jogador adversário está em xeque após o movimento  (eu posso colocar o outro em xeque)
-            {
-                xeque = true; // se o adversário estiver em xeque
-            }
-            else
-                xeque = false;
 
-                turno++;
+            // correto: marca xeque se o adversário está em xeque
+            xeque = testeXeque(adversaria(jogadorAtual));
+
+            turno++;
             TrocaLadoJogador(); // alterna entre os jogadores
         }
 
@@ -185,6 +182,7 @@ namespace Xadrez.PecasXadrez
             {
                 tab.colocarPeca(pecaCapturada, destino); //coloca a peça captura no lugar de volta
                 Capturadas.Remove(pecaCapturada); // tira a peça "capturada" do hash de peçasCapturadas
+                pecasNoTabuleiro.Add(pecaCapturada);
             }
             tab.colocarPeca(p, origem); // volta a peça pro lugar
         }
