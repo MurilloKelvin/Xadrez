@@ -242,7 +242,7 @@ namespace Xadrez.PecasXadrez
 
         public void validarPosicaoDeDestino(Posicao origem, Posicao destino) // valida se a posição de destino é válida
         {
-            if (!tab.Peca(origem).movimentosPossiveis()[destino.linha, destino.coluna])
+            if (!tab.Peca(origem).MovPossivel(destino))
             {
                 throw new TabuleiroException("Posição de destino inválida! press enter");
             }

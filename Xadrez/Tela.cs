@@ -50,7 +50,10 @@ class Tela
         {
             Console.Write(x + " "); // imprime a peça
         }
-        Console.Write("]");
+        Console.Write("] ");
+        // imprime a quantidade de peças capturadas
+        Console.WriteLine(conjunto.Count);
+
     }
 
 
