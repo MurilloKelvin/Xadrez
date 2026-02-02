@@ -40,6 +40,9 @@ try
             Console.WriteLine("Aperte qualquer tecla pra continuar");
             Console.ReadKey();
         }
+        Console.Clear();
+        Tela.ImprimirPartida(partida); // imprime o estado atual da partida
+
 
 
 

@@ -87,6 +87,35 @@ namespace Xadrez.PecasXadrez
             return false;
         }
 
+        public bool testeXequeMate(Cor cor) //verifica se algum movimento tira o rei do xeque se sim retorna false se não retorna true
+        {
+            if (!testeXeque(cor))
+                return false;
+
+            foreach (Peca x in pecasEmJogo(cor))
+            {
+                bool[,] mat = x.movimentosPossiveis();
+                for (int i = 0; i < tab.Linhas; i++)
+                {
+                    for (int j = 0; j < tab.Colunas; j++)
+                    {
+                        if (mat[i, j])
+                        {
+                            Posicao origem = x.posicao;
+                            Posicao destino = new Posicao(i, j);
+                            Peca pecaCapturada = executarMovimento(origem, destino); // tenta mover a peça 
+                            bool testarXeque = testeXeque(cor);  // testa se o rei ainda está em xeque
+                            desfazMovimento(origem, destino, pecaCapturada); // desfaz o movimento
+                            if (!testarXeque)
+                                return false;
+                        }
+                    }
+                }
+            }
+            return true; // se nenhum movimento tirar o rei do xeque, retorna true
+        }
+       
+
 
         public void colocarNovaPeca(char coluna, int linha, Peca peca) // metodo auxiliar para colocar peças no tabuleiro 
         {
@@ -140,12 +169,20 @@ namespace Xadrez.PecasXadrez
                 throw new TabuleiroException("Voce nao pode se colocar em xeque!");
             }
 
-            // correto: marca xeque se o adversário está em xeque
+            // marca xeque se o adversário está em xeque
             xeque = testeXeque(adversaria(jogadorAtual));
 
-            turno++;
-            TrocaLadoJogador(); // alterna entre os jogadores
+            if(testeXequeMate(adversaria(jogadorAtual))) // testa se o adversário está em xeque mate
+            {
+                terminada = true; // atributo da partidaXadrez
+            }
+            else 
+            { 
+                turno++;
+                TrocaLadoJogador(); // alterna entre os jogadores
+            }
         }
+        
 
         private void TrocaLadoJogador() // alterna entre os jogadores
         {
