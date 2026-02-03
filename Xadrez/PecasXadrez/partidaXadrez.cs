@@ -133,6 +133,7 @@ namespace Xadrez.PecasXadrez
             colocarNovaPeca('f', 8, new Bispo(tab, Cor.Preta));
             colocarNovaPeca('g', 8, new Cavalo(tab, Cor.Preta)); 
             colocarNovaPeca('h', 8, new Torre(tab, Cor.Preta));
+            colocarNovaPeca('e', 8, new Rei(tab, Cor.Preta));
 
 
             // peões pretos linha 2
@@ -149,6 +150,7 @@ namespace Xadrez.PecasXadrez
             colocarNovaPeca('f', 1, new Bispo(tab, Cor.Branca));
             colocarNovaPeca('g', 1, new Cavalo(tab, Cor.Branca));
             colocarNovaPeca('h', 1, new Torre(tab, Cor.Branca)); 
+            colocarNovaPeca('e', 1, new Rei(tab, Cor.Branca));
 
 
             // peões brancos linha 6

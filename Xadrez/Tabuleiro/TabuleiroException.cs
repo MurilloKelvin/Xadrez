@@ -11,5 +11,7 @@ namespace Xadrez.Tabuleiro
         public TabuleiroException(string msg) : base(msg)
         {
         }
+
+
     }
 }

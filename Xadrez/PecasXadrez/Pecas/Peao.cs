@@ -19,11 +19,11 @@ namespace Xadrez.PecasXadrez.Pecas
                 mat[pos.linha, pos.coluna] = true;
 
             // frente 2 casas no primeiro movimento: ambas vazias
-            Posicao inter = new Posicao(posicao.linha + direcao, posicao.coluna);
+            Posicao intermediaria = new Posicao(posicao.linha + direcao, posicao.coluna); //garante q o peao nao pule uma peça
             pos.definirValores(posicao.linha + 2 * direcao, posicao.coluna);
             if (qteMovimentos == 0 &&
-                tab.posicaoValida(inter) && tab.Peca(inter) == null &&
-                tab.posicaoValida(pos) && tab.Peca(pos) == null)
+                tab.posicaoValida(intermediaria) && tab.Peca(intermediaria) == null && // verifica a casa intermediaria
+                tab.posicaoValida(pos) && tab.Peca(pos) == null) // verifica a casa final
             {
                 mat[pos.linha, pos.coluna] = true;
             }

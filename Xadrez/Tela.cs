@@ -104,6 +104,10 @@ class Tela
     public static PosicaoXadrez LerPosicaoXadrez()
     {
         string s = Console.ReadLine();
+
+        if (string.IsNullOrEmpty(s) || s.Length < 2 || s.Length > 2) // validação básica da entrada
+            throw new TabuleiroException("Entrada invalida. Use o formato, por exemplo: a1");
+
         char coluna = s[0];
         int linha = int.Parse(s[1] + "");
         return new PosicaoXadrez(coluna, linha);
