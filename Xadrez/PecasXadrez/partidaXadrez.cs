@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace Xadrez.PecasXadrez
 {
-    class partidaXadrez
+    public class partidaXadrez
     {
         public Tabuleiro.Tabuleiro tab { get; private set; }
         public int turno { get; private set; }
@@ -133,7 +133,7 @@ namespace Xadrez.PecasXadrez
             colocarNovaPeca('f', 8, new Bispo(tab, Cor.Preta));
             colocarNovaPeca('g', 8, new Cavalo(tab, Cor.Preta)); 
             colocarNovaPeca('h', 8, new Torre(tab, Cor.Preta));
-            colocarNovaPeca('e', 8, new Rei(tab, Cor.Preta));
+            colocarNovaPeca('e', 8, new Rei(tab, this, Cor.Preta)); // this e para o rei ter acesso a partida
 
 
             // peões pretos linha 2
@@ -150,7 +150,7 @@ namespace Xadrez.PecasXadrez
             colocarNovaPeca('f', 1, new Bispo(tab, Cor.Branca));
             colocarNovaPeca('g', 1, new Cavalo(tab, Cor.Branca));
             colocarNovaPeca('h', 1, new Torre(tab, Cor.Branca)); 
-            colocarNovaPeca('e', 1, new Rei(tab, Cor.Branca));
+            colocarNovaPeca('e', 1, new Rei(tab, this, Cor.Branca)); // this e para o rei ter acesso a partida
 
 
             // peões brancos linha 6
@@ -208,6 +208,30 @@ namespace Xadrez.PecasXadrez
                 Capturadas.Add(pecaCapturada);
             }
 
+
+            // # jogada especial roque pequeno
+            if (p is Rei && destino.coluna == origem.coluna + 2) // se a peça for um rei e o destino for 2 coluna pra direita (roque
+            {
+                Posicao origemT = new Posicao(origem.linha, origem.coluna +3); // posição da torre
+                Posicao destinoT = new Posicao(origem.linha, origem.coluna +1); // posição da torre após o movimento
+                Peca T = tab.retirarPeca(origemT); // retira a torre da posição original
+                T.incrementarQteMovimentos(); // incrementa a qte de movimentos da torre
+                tab.colocarPeca(T, destinoT); // coloca a torre na posição de destino
+
+            }
+
+            // # jogada especial roque grande
+            if (p is Rei && destino.coluna == origem.coluna - 2) // se a peça for um rei e o destino for 2 coluna pra esquerda (roque grande
+            {
+                Posicao origemT = new Posicao(origem.linha, origem.coluna - 4); // posição da torre
+                Posicao destinoT = new Posicao(origem.linha, origem.coluna - 1); // posição da torre após o movimento
+                Peca T = tab.retirarPeca(origemT); // retira a torre da posição original
+                T.incrementarQteMovimentos(); // incrementa a qte de movimentos da torre
+                tab.colocarPeca(T, destinoT); // coloca a torre na posição de destino
+            }
+
+
+
             return pecaCapturada;
 
         }
@@ -224,6 +248,30 @@ namespace Xadrez.PecasXadrez
                 pecasNoTabuleiro.Add(pecaCapturada);
             }
             tab.colocarPeca(p, origem); // volta a peça pro lugar
+
+
+            // # jogada especial roque pequeno
+            if (p is Rei && destino.coluna == origem.coluna + 2) // se a peça for um rei e o destino for 2 coluna pra direita (roque
+            {
+                Posicao origemT = new Posicao(origem.linha, origem.coluna + 3); // posição da torre
+                Posicao destinoT = new Posicao(origem.linha, origem.coluna + 1); // posição da torre após o movimento
+                Peca T = tab.retirarPeca(destinoT); // retira a torre da posição original
+                T.decrementarQteMovimentos(); // incrementa a qte de movimentos da torre
+                tab.colocarPeca(T, origemT); // coloca a torre na posição de destino
+
+            }
+
+            // # jogada especial roque grande
+            if (p is Rei && destino.coluna == origem.coluna + 2) // se a peça for um rei e o destino for 2 coluna pra esquerda (roque grande
+            { 
+                Posicao origemT = new Posicao(origem.linha, origem.coluna - 4); // posição da torre
+                Posicao destinoT = new Posicao(origem.linha, origem.coluna - 1); // posição da torre após o movimento
+                Peca T = tab.retirarPeca(destinoT); // retira a torre da posição original
+                T.decrementarQteMovimentos(); // incrementa a qte de movimentos da torre
+                tab.colocarPeca(T, origemT); // coloca a torre na posição de destino
+
+            }
+
         }
 
         public void validarPosicaoDeOrigem(Posicao pos) // valida se a posição de origem é válida
