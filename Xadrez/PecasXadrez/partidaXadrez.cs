@@ -171,6 +171,23 @@ namespace Xadrez.PecasXadrez
                 throw new TabuleiroException("Voce nao pode se colocar em xeque!");
             }
 
+            Peca p = tab.Peca(destino);
+
+            // # jogada especial promoção
+            if (p is Peao) // se for um peao
+            {
+                if (p.cor == Cor.Branca && destino.linha == 0 || p.cor == Cor.Preta && destino.linha == 7) // se o peao chegou na ultima linha
+                {
+                    p = tab.retirarPeca(destino); 
+                    pecasNoTabuleiro.Remove(p); // remove o peao do conjunto de peças no tabuleiro
+                    Peca dama = new Dama(tab, p.cor); // cria uma nova dama da mesma cor do peao
+                    tab.colocarPeca(dama, destino); 
+                    pecasNoTabuleiro.Add(dama); // adiciona a dama ao conjunto de peças no tabuleiro
+
+                }
+            }
+
+
             // marca xeque se o adversário está em xeque
             xeque = testeXeque(adversaria(jogadorAtual));
 

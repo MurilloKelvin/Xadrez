@@ -42,10 +42,6 @@ try
         }
         Console.Clear();
         Tela.ImprimirPartida(partida); // imprime o estado atual da partida
-
-
-
-
     }
 }
 catch (TabuleiroException e)
